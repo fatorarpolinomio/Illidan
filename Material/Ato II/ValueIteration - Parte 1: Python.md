@@ -1,4 +1,4 @@
-# Value Iteration
+# Value Iteration - Parte 1: Python
 
 O Value Iteration, ou Iteração de Valor, é um dos algoritmos de programação dinâmica, é utilizado para encontrar a política ótima para cada estado.
 
@@ -422,3 +422,144 @@ Do jeito que programamos, se o agente pisa no Estado X, ele **sempre ganha a rec
 Quando a recompensa é determinística e amarrada ao estado futuro, a probabilidade da recompensa ser diferente de R(s′) é zero. Matematicamente, a fórmula geral sofre uma redução automática. Ela perde a dimensão r no somatório e a probabilidade conjunta **p(s′,r∣s,a)** vira apenas a probabilidade de transição **p(s′∣s,a)**.
 
 ### Versão Vetorial
+
+Agora, a diferença na implementação será muito nítida. A versão vetorial nos fornece um código mais condensado e legível.
+
+Vamos nos basear, principalmente, na biblioteca `numpy`, usufruindo de todo o seu poder. Ela possui funções que contornam a necessidade de encontrar valores máximos a partir de loops com variáveis sendo comparadas em um bloco de `if`. Tudo acaba ficando bem mais parecido com o pseudocódigo que vimos no começo.
+
+Os recursos que utilizaremos serão:
+
+1.  _numpy.max_: retorna o valor máximo de um array ou o valor máximo em um eixo.
+
+De acordo com a [documentação oficial da NumPy](https://numpy.org/doc/2.1/reference/generated/numpy.max.html), temos um argumento obrigatório: `a`. Mas, também comentaremos sobre `axis`.
+
+(i) `a`: um array, que diz respeito aos dados de entrada.
+
+(ii) `axis`: vazio, um inteiro ou uma tupla de inteiros, opcional; será o(s) eixo(s) em que vamos operar.
+
+Se for uma tupla de inteiros, o valor máximo será selecionado em vários eixos, em vez de um único eixo ou de todos os eixos como antes.
+
+2.  O operador `@`: utilizado para multiplicação de matrizes.
+
+É uma abreviação para a função [numpy.matmul](https://numpy.org/doc/stable/reference/generated/numpy.matmul.html).
+
+3. _numpy.absolute_ ou _numpy.abs_: calcula o valor absoluto elemento por elemento em uma determinada matriz ou escalar de entrada.
+
+De acordo com a [documentação oficial da NumPy](https://numpy.org/doc/stable/reference/generated/numpy.absolute.html), temos um argumento obrigatório: `x`, que é o array de input.
+
+Ok! Partindo para a implementação, começaremos preparando os nossos dados:
+
+```python
+def value_iteration_vetorial(
+    discount_rate: float,
+    threshold: float,
+    actions: list,
+    states: list,
+    rewards: list,
+    trans_func_per_action: list,
+):
+    # Preparação dos Dados
+    # P vira uma Matriz 3D no formato: (Ações, Estados Atuais, Estados Futuros)
+    trans_func_per_action_numpy = np.array(trans_func_per_action)
+
+    # Converte a nossa lista de recompensas para um array
+    # da NumPy
+    rewards_numpy = np.array(rewards)
+
+    # Inicializando nossos state_values e optimal_policy do mesmo jeito
+    state_values = np.zeros(len(states))
+    optimal_policy = np.zeros(len(states))
+```
+
+Aqui, fizemos algumas alterações. Convertemos algumas das nossas listas passadas como parâmetro. Essas passarão por operações de álgebra linear, então é importante que estejam dentro dos conformes da **NumPy**.
+
+Vamos, então para dentro do nosso **loop principal**:
+
+```python
+delta = threshold + 1.0
+# Loop principal de convergência
+while delta > threshold:
+    # EQUAÇÃO DE BELLMAN EM 2 LINHAS
+    # Passo 1: Calcula o [ R(s') + gama * V(s') ] para todos os estados de uma vez
+    v_target = rewards_numpy + (discount_rate * state_values)
+
+    # Passo 2: O Somatório de Bellman!
+    expected_value = trans_func_per_action_numpy @ v_target
+```
+
+Sim, as duas linhas que colocamos dentro do while já fazem boa parte do que quebramos a cabeça fazendo anteriormente. Esse é o poder da `NumPy` e da `Álgebra Linear`:
+
+1. O operador '@' multiplica a matriz 3D 'trans_func_per_action_numpy' pelo vetor 'v_target'.
+2. O NumPy faz a soma das probabilidades automaticamente e devolve 'expected_value', uma matriz onde as linhas são as Ações e as colunas são os Estados.
+
+Vamos agora extrair a política e os valores:
+
+```python
+# Pega a "nota" da melhor ação para cada estado (axis=0 olha pelas linhas/ações)
+new_V = np.max(expected_value, axis=0)
+
+# Pega o "índice" (o número) da melhor ação para cada estado
+optimal_policy = np.argmax(expected_value, axis=0)
+
+# Atualiza o delta checando a maior diferença de V(s) do tabuleiro inteiro
+delta = np.max(np.abs(new_V - state_values))
+
+# Salva as notas para o próximo loop
+state_values = new_V
+```
+
+Por fim, basta retornar a nossa política ótima. A nossa função completa fica assim:
+
+```python
+def value_iteration_vetorial(
+    discount_rate: float,
+    threshold: float,
+    actions: list,
+    states: list,
+    rewards: list,
+    trans_func_per_action: list,
+):
+    # Preparação dos Dados
+    # P vira uma Matriz 3D no formato: (Ações, Estados Atuais, Estados Futuros)
+    trans_func_per_action_numpy = np.array(trans_func_per_action)
+
+    # Converte a nossa lista de recompensas para um array
+    # da NumPy
+    rewards_numpy = np.array(rewards)
+
+    # Inicializando nossos state_values e optimal_policy do mesmo jeito
+    state_values = np.zeros(len(states))
+    optimal_policy = np.zeros(len(states))
+
+    delta = threshold + 1.0
+
+    # Loop principal de convergência
+    delta = threshold + 1.0
+    # Loop principal de convergência
+    while delta > threshold:
+        # EQUAÇÃO DE BELLMAN EM 2 LINHAS
+        # Passo 1: Calcula o [ R(s') + gama * V(s') ] para todos os estados de uma vez
+        v_target = rewards_numpy + (discount_rate * state_values)
+
+        # Passo 2: O Somatório de Bellman!
+        expected_value = trans_func_per_action_numpy @ v_target
+
+        # --- EXTRAINDO A POLÍTICA E OS VALORES ---
+
+        # Pega a "nota" da melhor ação para cada estado (axis=0 olha pelas linhas/ações)
+        new_V = np.max(expected_value, axis=0)
+
+        # Pega o "índice" (o número) da melhor ação para cada estado
+        optimal_policy = np.argmax(expected_value, axis=0)
+
+        # Atualiza o delta checando a maior diferença de V(s) do tabuleiro inteiro
+        delta = np.max(np.abs(new_V - state_values))
+
+        # Salva as notas para o próximo loop
+        state_values = new_V
+
+    print(f"Valores dos Estados V(s):\n{state_values}")
+    return optimal_policy
+```
+
+Finalmente, temos a nossa versão vetorial da `Value Iteration`. Perceba como ela fica muito mais enxuta. Além disso, também fica otimizada, pois existe o motor em C rodando por baixo dos panos na `NumPy`.
