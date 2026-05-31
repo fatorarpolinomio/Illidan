@@ -72,41 +72,44 @@ def value_iteration_vetorial(
     rewards: list,
     trans_func_per_action: list,
 ):
-    # 1. Preparação dos Dados
+    # Preparação dos Dados
     # P vira uma Matriz 3D no formato: (Ações, Estados Atuais, Estados Futuros)
-    P = np.array(trans_func_per_action)
-    R = np.array(rewards)
-    V = np.zeros(len(states))
+    trans_func_per_action_numpy = np.array(trans_func_per_action)
+
+    # Converte a nossa lista de recompensas para um array
+    # da NumPy
+    rewards_numpy = np.array(rewards)
+
+    # Inicializando nossos state_values e optimal_policy do mesmo jeito
+    state_values = np.zeros(len(states))
     optimal_policy = np.zeros(len(states))
 
     delta = threshold + 1.0
 
     # Loop principal de convergência
+    delta = threshold + 1.0
+    # Loop principal de convergência
     while delta > threshold:
-        # --- A EQUAÇÃO DE BELLMAN EM 2 LINHAS ---
-
+        # EQUAÇÃO DE BELLMAN EM 2 LINHAS
         # Passo 1: Calcula o [ R(s') + gama * V(s') ] para todos os estados de uma vez
-        v_target = R + (discount_rate * V)
+        v_target = rewards_numpy + (discount_rate * state_values)
 
         # Passo 2: O Somatório de Bellman!
-        # O operador '@' multiplica a matriz 3D 'P' pelo vetor 'v_target'.
-        # O NumPy faz a soma das probabilidades automaticamente e devolve 'Q',
-        # uma matriz onde as linhas são as Ações e as colunas são os Estados.
-        Q = P @ v_target
+        expected_value = trans_func_per_action_numpy @ v_target
 
         # --- EXTRAINDO A POLÍTICA E OS VALORES ---
 
         # Pega a "nota" da melhor ação para cada estado (axis=0 olha pelas linhas/ações)
-        new_V = np.max(Q, axis=0)
+        new_V = np.max(expected_value, axis=0)
 
         # Pega o "índice" (o número) da melhor ação para cada estado
-        optimal_policy = np.argmax(Q, axis=0)
+        optimal_policy = np.argmax(expected_value, axis=0)
 
         # Atualiza o delta checando a maior diferença de V(s) do tabuleiro inteiro
-        delta = np.max(np.abs(new_V - V))
+        delta = np.max(np.abs(new_V - state_values))
 
         # Salva as notas para o próximo loop
-        V = new_V
+        state_values = new_V
 
-    print(f"Valores dos Estados V(s):\n{V}")
+    print(f"Valores dos Estados V(s):\n{state_values}")
     return optimal_policy
