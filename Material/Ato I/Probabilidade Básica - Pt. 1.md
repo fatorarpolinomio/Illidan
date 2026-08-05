@@ -91,7 +91,8 @@ O número **Pr(A)** deve satisfazer três axiomas básicos para satisfazer a def
 2) **Pr(S) = 1**;
 3) Para toda sequência finita de **eventos disjuntos** **A1, A2, ...**,
 
-(Imagem do produtório x Somatório)
+
+$$ \Pr \left( \bigcup_{i=1}^{n} A_i \right) = \sum_{i=1}^{n} \Pr(A_i) $$
 
 A **interpretação clássica** de probabilidade é baseada no conceito de **resultados equiprováveis**. 
 
@@ -154,7 +155,7 @@ Sendo A = obter 1 no primeiro, B = obter 2 no segundo: **Pr(A ∩ B) = Pr(A) Pr(
 
 Para eventos disjuntos A1, A2, ..., sabemos que:
 
-(Imagem produtório e somatório)
+$$ \Pr \left( \bigcup_{i=1}^{n} A_i \right) = \sum_{i=1}^{n} \Pr(A_i) $$
 
 Além disso, para todos os eventos A1 e A2, desconsiderando dependência ou independência, temos que:
 
