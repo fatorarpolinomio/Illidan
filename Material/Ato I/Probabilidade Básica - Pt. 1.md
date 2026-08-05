@@ -8,6 +8,10 @@ A ideia é apresentar os tópicos com algum rigor matemático, mas, imediatament
 
 Para aprofundamento efetivo, buscar diretamente da fonte, como os materiais deixados nas referências, é uma escolha adequada.
 
+Caso você já tenha afinidade com probabilidade básica, é provável que você não precise ler essa parte. Haverá um **mapa mental** no final deste capítulo para que você **refresque seus miolos** sempre que necessário. 
+
+(Apesar de que, para seu aprendizado, é muito mais válido que você mesmo(a) faça seu próprio mapa mental)
+
 ## O que é Probabilidade?
 
 Primeiro, para entender probabilidade, é necessário pensar em **experimentos**.
@@ -75,6 +79,8 @@ Depende das suas escolhas para a programação e do que você acha mais confort�
 
 Às vezes, também, podemos estar construindo um projeto que depende de otimização e bom desempenho para trabalhar com milhares e milhares de valores. Aqui, a escolha da estrutura correta pode ser um grande diferencial.
 
+A partir daqui, usaremos a `<vector>` para fins de simplicidade.
+
 ## Probabilidade
 
 Em um experimento, é necessário associar para cada **Evento A** no **Espaço Amostral S** um número **Pr(A)** que indica a probabilidade de **A** acontecer.
@@ -97,7 +103,7 @@ Temos que: Pr(A) = **|A|/|S|**
 
 **Exemplo 1: rolando dado**
 
-É nítido que, dentre as seis possibilidades com chances iguais, a probabilidade de sair um resultado em específico é: **1/6**.
+É nítido que, dentre as seis possibilidades com chances iguais, a probabilidade de sair um resultado em específico é **1/6**. Isso, pois, dividimos o nosso **Espaço Amostral** em seis partes iguais! 
 
 ```cpp
 #include <iostream>
@@ -106,6 +112,8 @@ Temos que: Pr(A) = **|A|/|S|**
 int main(){
     std::vector<int> faces = {1, 2, 3, 4, 5, 6};
 
+    // Abaixo, usaremos o método size() para obtermos o tamanho do arranjo
+    
     std::cout << "Tamanho do conjunto: " << faces.size() << std::endl;
 
     float probA = 1.0 / faces.size();
@@ -122,10 +130,42 @@ Tamanho do conjunto: 6
 Probabilidade de sair um número qualquer em um D6: 0.166667
 ```
 
-> Perceba que ocorreu ali uma aproximação no valor de ponto flutuante.
+> Perceba que ocorreu ali uma aproximação no valor de ponto flutuante. O resultado poderia ser diferente caso usássemos double ou invés de float? Verifique, se sentir curiosidade.
+
+Bacana! Mas, e se quisermos saber a probabilidade de obtermos resultados específicos em dois lançamentos sequenciais do dado?
+
+É intuitivo que, quando jogamos o mesmo dado duas vezes, os dois lançamentos são independentes, correto? Pelo menos, em condições normais de temperatura e pressão.
+
+Ao levar em conta que o acontecimento de B não interfere em nada na probabilidade de acontecer A, dizemos que A e B são **independentes**.
+
+## Independência
+
+Dois eventos A e B são independentes se **Pr(A ∩ B) = Pr(A) Pr(B)**.
+
+De maneira um pouco simplista, intersecção **A ∩ B** diz respeito, justamente, a quando **duas coisas acontecem simultaneamente**. **Pr(A ∩ B)** é a probabilidade de acontecer A **E** acontecer B. Ela é traduzida matematicamente na forma de multiplicação.
+
+**Exemplo 2: uma coisa E outra**
+
+Voltando para o exemplo do dado: se jogarmos ele duas vezes seguindas, qual a probabilidade de obtermos o **número 1** no primeiro e o **número 2** no segundo?
+
+Sendo A = obter 1 no primeiro, B = obter 2 no segundo: **Pr(A ∩ B) = Pr(A) Pr(B) = 1/6 x 1/6 = 1/36**.
+
+## A Probabilidade da União de Eventos
+
+Para eventos disjuntos A1, A2, ..., sabemos que:
+
+(Imagem produtório e somatório)
+
+Além disso, para todos os eventos A1 e A2, desconsiderando dependência ou independência, temos que:
+
+**Pr(A1 ∪ A2) = Pr(A1) + Pr(A2) − Pr(A1 ∩ A2).**
+
+Esse resultado pode ser expandido para um número árbitrário finito de eventos. Porém, demonstrar isso foge da proposta deste material. Novamente, a consulta das fontes é recomendada para aprofundamento.
+
+**Exemplo 3: uma coisa OU outra**
+
+Retornando para o exemplo do lançamento do dado, como computamos a probabilidade de obtermos um resultado OU outro?
 
 ## O que é Probabilidade Condicional?
 
 ## Lei da Probabilidade Total
-
-## Independência
