@@ -92,8 +92,8 @@ Em um experimento, é necessário associar para cada **Evento A** no **Espaço A
 
 O número **Pr(A)** deve satisfazer três axiomas básicos para satisfazer a definição matemática de probabilidade:
 
-1) Para todo **Evento A**, **Pr(A) >= 0**;
-2) **Pr(S) = 1**;
+1) Para todo **Evento A**, $\Pr(A) \ge 0$;
+2) $\Pr(S) = 1$;
 3) Para toda sequência finita de **eventos disjuntos** **A1, A2, ...**,
 
 
@@ -105,7 +105,7 @@ Por exemplo, quando uma moeda é lançada, temos duas possíveis saídas: **cara
 
 No caso, se os resultados dos experimentos são **equiprováveis**, calcular probabilidades se reduz a uma contagem.
 
-Temos que: Pr(A) = **|A|/|S|**
+Temos que: $\Pr(A) = \frac{|A|}{|S|}$
 
 **Exemplo 1: rolando dado**
 
@@ -146,15 +146,16 @@ Ao levar em conta que o acontecimento de B não interfere em nada na probabilida
 
 ## Independência
 
-Dois eventos A e B são independentes se **Pr(A ∩ B) = Pr(A) Pr(B)**.
+Dois eventos A e B são independentes se $\Pr(A \cap B) = \Pr(A) \Pr(B)$.
 
-De maneira um pouco simplista, intersecção **A ∩ B** diz respeito, justamente, a quando **duas coisas acontecem simultaneamente**. **Pr(A ∩ B)** é a probabilidade de acontecer A **E** acontecer B. Ela é traduzida matematicamente na forma de multiplicação.
+De maneira um pouco simplista, a intersecção $A \cap B$ diz respeito, justamente, a quando **duas coisas acontecem simultaneamente**. $\Pr(A \cap B)$ é a probabilidade de acontecer A **E** acontecer B. Ela é traduzida matematicamente na forma de multiplicação.
 
 **Exemplo 2: uma coisa E outra**
 
 Voltando para o exemplo do dado: se jogarmos ele duas vezes seguidas, qual a probabilidade de obtermos o **número 1** no primeiro e o **número 2** no segundo?
 
-Sendo A = obter 1 no primeiro, B = obter 2 no segundo: **Pr(A ∩ B) = Pr(A) Pr(B) = 1/6 x 1/6 = 1/36**.
+Sendo A = obter 1 no primeiro, B = obter 2 no segundo: 
+$$ \Pr(A \cap B) = \Pr(A) \Pr(B) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36} $$
 
 ## A Probabilidade da União de Eventos
 
@@ -182,15 +183,15 @@ Onde:
 (ii) A1 = Obter 1;
 (iii) A2 = Obter 2;
 
-Ora, é intuitivo pensar que não podemos obter 1 e 2 ao mesmo tempo num lançamento de um único dado. Então, **Pr(A1 ∩ A2) = 0**.
+Ora, é intuitivo pensar que não podemos obter 1 e 2 ao mesmo tempo num lançamento de um único dado. Então, $\Pr(A_1 \cap A_2) = 0$.
 
 Assim, 
 
-**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2)**
+$$ \Pr(A) = \Pr(A_1 \cup A_2) = \Pr(A_1) + \Pr(A_2) $$
 
-A probabilidade de obter uma das faces de um dado D6 em um lançamento é **1/6**. Logo:
+A probabilidade de obter uma das faces de um dado D6 em um lançamento é $1/6$. Logo:
 
-**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2) = 1/6 + 1/6 = 2/6 = 1/3**
+$$ \Pr(A) = \Pr(A_1 \cup A_2) = \Pr(A_1) + \Pr(A_2) = \frac{1}{6} + \frac{1}{6} = \frac{2}{6} = \frac{1}{3} $$
 
 ## Probabilidade Condicional
 
@@ -198,40 +199,40 @@ Suponha que temos conhecimento de que um **evento B** aconteceu. Queremos comput
 
 A nova probabilidade será chamada de **"Probabilidade de um evento A, dado que B aconteceu"**. Ela será denotada por **Pr(A|B)**.
 
-Se Pr(B > 0), computamos essa probabilidade da seguinte maneira:
+Se $\Pr(B) > 0$, computamos essa probabilidade da seguinte maneira:
 
-**Pr(A|B) = Pr(A ∩ B) / Pr(B)**.
+$$ \Pr(A|B) = \frac{\Pr(A \cap B)}{\Pr(B)} $$
 
-**Pr(A|B)** não é definida se **Pr(B) = 0**. (Consegue imaginar o porquê?)
+$\Pr(A|B)$ não é definida se $\Pr(B) = 0$. (Consegue imaginar o porquê?)
 
 **Exemplo 4: Suponha que dois dados D6 foram rolados e foi observado que a soma T dos dois números foi ímpar. Qual a probabilidade de T ser menor do que 8?** 
 
 Seja **A** o evento **"T < 8"** e seja **B** o evento **"T é ímpar"**. Assim, **A ∩ B** é o evento onde T é 3, 5 ou 7.
 
-Podemos chegar nos seguintes valores de **Pr(A ∩ B)** e **Pr(B)**:
+Podemos chegar nos seguintes valores de $\Pr(A \cap B)$ e $\Pr(B)$:
 
-**Pr(A ∩ B) = 2/36 + 4/36 + 6/36 = 12/3 = 1/3.**
+$$ \Pr(A \cap B) = \frac{2}{36} + \frac{4}{36} + \frac{6}{36} = \frac{12}{36} = \frac{1}{3} $$
 
-**Pr(B) = 2/36 + 4/36 + 6/36 + 4/36 + 2/36 = 18/36 = 1/2.** 
+$$ \Pr(B) = \frac{2}{36} + \frac{4}{36} + \frac{6}{36} + \frac{4}{36} + \frac{2}{36} = \frac{18}{36} = \frac{1}{2} $$
 
 Logo,
 
-**Pr(A|B) = Pr(A ∩ B)/Pr(B) = 2/3**
+$$ \Pr(A|B) = \frac{\Pr(A \cap B)}{\Pr(B)} = \frac{1/3}{1/2} = \frac{2}{3} $$
 
 ## Lei da Probabilidade Total
 
-Suponha que os eventos **B1, ..., Bk** formam uma partição do espaço amostral **S** e **Pr(Bj) > 0** para **j = 1, ..., k**. Então, para todo evento **A** em **S**,
+Suponha que os eventos $B_1, \dots, B_k$ formam uma partição do espaço amostral $S$ e $\Pr(B_j) > 0$ para $j = 1, \dots, k$. Então, para todo evento $A$ em $S$,
 
-(Imagem de Pr(A) = somatório de j=1 até k de Pr(Bj)Pr(A|Bj))
+$$ \Pr(A) = \sum_{j=1}^{k} \Pr(B_j)\Pr(A|B_j) $$
 
-Chegamos nesse resultado a partir do seguinte raciocício:
+Chegamos nesse resultado a partir do seguinte raciocínio:
 
-Os eventos B1 ∩ A, B2 ∩ A, ..., Bk ∩ A formarão uma partição de A, da maneira a qual está ilustrada na figura abaixo. Logo, escrevemos:
+Os eventos $B_1 \cap A, B_2 \cap A, \dots, B_k \cap A$ formarão uma partição de $A$, da maneira a qual está ilustrada na figura abaixo. Logo, escrevemos:
 
-A = (B1 ∩ A) ∪ (B2 ∩ A) ∪ ... ∪ (Bk ∩ A).
+$$ A = (B_1 \cap A) \cup (B_2 \cap A) \cup \dots \cup (B_k \cap A) $$
 
 Além disso, dado que os **k eventos** são disjuntos,
 
-Pr(A) = somatório de j = 1 até k (Pr(Bj ∩ A)).
+$$ \Pr(A) = \sum_{j=1}^{k} \Pr(B_j \cap A) $$
 
-Finalmente, se **Pr(Bj) > 0** para **j = 1, ..., k**, então **Pr(Bj ∩ A) = Pr(Bj)Pr(A|Bj)**. Substituindo na equação acima, chegaremos no resultado descrito anteriormente.
+Finalmente, se $\Pr(B_j) > 0$ para $j = 1, \dots, k$, então $\Pr(B_j \cap A) = \Pr(B_j)\Pr(A|B_j)$. Substituindo na equação acima, chegaremos no resultado descrito anteriormente.
