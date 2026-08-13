@@ -43,8 +43,9 @@ Poderíamos pensar, também, em uma moeda:
 
 ```cpp
 #include <vector>
+#include <string>
 
-std::vector<string> faces = {"cara", "coroa"};
+std::vector<std::string> faces = {"cara", "coroa"};
 ```
 
 Essa é uma maneira de definir o nosso conjunto, mas poderíamos utilizar outras estruturas de dados livremente, contanto que não exista nenhum "atrito" na hora de realizarmos consultas. Dependendo, um **Hash Map** pode ser viável.
@@ -53,8 +54,9 @@ Para o caso do dado:
 
 ```cpp
 #include <unordered_map>
+#include <string>
 
-std::unordered_map<string, int> faces;
+std::unordered_map<std::string, int> faces;
 
 faces["face_1"] = 1;
 faces["face_2"] = 2;
@@ -68,8 +70,9 @@ Para o caso da moeda:
 
 ```cpp
 #include <unordered_map>
+#include <string>
 
-std::unordered_map<int, string> faces;
+std::unordered_map<int, std::string> faces;
 
 faces[1] = "cara";
 faces[2] = "coroa";
@@ -79,7 +82,9 @@ Depende das suas escolhas para a programação e do que você acha mais confort�
 
 Às vezes, também, podemos estar construindo um projeto que depende de otimização e bom desempenho para trabalhar com milhares e milhares de valores. Aqui, a escolha da estrutura correta pode ser um grande diferencial.
 
-A partir daqui, usaremos a `<vector>` para fins de simplicidade.
+Vale ressaltar que, em **C++**, para conjuntos pequenos, contínuos e bem definidos (como faces de um D6), um `std::vector` (ou `std::array`) será **infinitamente** mais rápido do que um `std::unordered_map`. O Hash Map exige o cálculo de hashes e alocação dinâmica de nós, gerando um overhead que prejudica a localidade de cache.
+
+Emtão, a partir daqui, usaremos a `<vector>` para fins de simplicidade e otimização.
 
 ## Probabilidade
 
@@ -131,7 +136,7 @@ Tamanho do conjunto: 6
 Probabilidade de sair um número qualquer em um D6: 0.166667
 ```
 
-> Perceba que ocorreu ali uma aproximação no valor de ponto flutuante. O resultado poderia ser diferente caso usássemos double ou invés de float? Verifique, se sentir curiosidade.
+> Perceba que ocorreu ali uma aproximação no valor de ponto flutuante. O resultado poderia ser diferente caso usássemos double ou invés de float? Verifique.
 
 Bacana! Mas, e se quisermos saber a probabilidade de obtermos resultados específicos em dois lançamentos sequenciais do dado?
 
@@ -147,7 +152,7 @@ De maneira um pouco simplista, intersecção **A ∩ B** diz respeito, justament
 
 **Exemplo 2: uma coisa E outra**
 
-Voltando para o exemplo do dado: se jogarmos ele duas vezes seguindas, qual a probabilidade de obtermos o **número 1** no primeiro e o **número 2** no segundo?
+Voltando para o exemplo do dado: se jogarmos ele duas vezes seguidas, qual a probabilidade de obtermos o **número 1** no primeiro e o **número 2** no segundo?
 
 Sendo A = obter 1 no primeiro, B = obter 2 no segundo: **Pr(A ∩ B) = Pr(A) Pr(B) = 1/6 x 1/6 = 1/36**.
 
