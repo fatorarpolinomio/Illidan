@@ -170,8 +170,68 @@ Esse resultado pode ser expandido para um número árbitrário finito de eventos
 
 **Exemplo 3: uma coisa OU outra**
 
-Retornando para o exemplo do lançamento do dado, como computamos a probabilidade de obtermos um resultado OU outro?
+Retornando para o exemplo do lançamento do dado, como computamos a probabilidade de obtermos um resultado OU outro? Exemplificadamente, qual a probabilidade de lançarmos um dado e obtermos como resultado **o número 1** ou **o número 2**?
 
-## O que é Probabilidade Condicional?
+Perceba que esse evento o qual estamos descrevendo é a união de dois eventos particulares. Como foi descrito acima, obtemos a probabilidade a partir de:
+
+**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2) − Pr(A1 ∩ A2).**
+
+Onde:
+
+(i) A = Obter 1 ou 2;
+(ii) A1 = Obter 1;
+(iii) A2 = Obter 2;
+
+Ora, é intuitivo pensar que não podemos obter 1 e 2 ao mesmo tempo num lançamento de um único dado. Então, **Pr(A1 ∩ A2) = 0**.
+
+Assim, 
+
+**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2)**
+
+A probabilidade de obter uma das faces de um dado D6 em um lançamento é **1/6**. Logo:
+
+**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2) = 1/6 + 1/6 = 2/6 = 1/3**
+
+## Probabilidade Condicional
+
+Suponha que temos conhecimento de que um **evento B** aconteceu. Queremos computar a probabilidade de acontecer outro **evento A**, levado em conta que **B** aconteceu.
+
+A nova probabilidade será chamada de **"Probabilidade de um evento A, dado que B aconteceu"**. Ela será denotada por **Pr(A|B)**.
+
+Se Pr(B > 0), computamos essa probabilidade da seguinte maneira:
+
+**Pr(A|B) = Pr(A ∩ B) / Pr(B)**.
+
+**Pr(A|B)** não é definida se **Pr(B) = 0**. (Consegue imaginar o porquê?)
+
+**Exemplo 4: Suponha que dois dados D6 foram rolados e foi observado que a soma T dos dois números foi ímpar. Qual a probabilidade de T ser menor do que 8?** 
+
+Seja **A** o evento **"T < 8"** e seja **B** o evento **"T é ímpar"**. Assim, **A ∩ B** é o evento onde T é 3, 5 ou 7.
+
+Podemos chegar nos seguintes valores de **Pr(A ∩ B)** e **Pr(B)**:
+
+**Pr(A ∩ B) = 2/36 + 4/36 + 6/36 = 12/3 = 1/3.**
+
+**Pr(B) = 2/36 + 4/36 + 6/36 + 4/36 + 2/36 = 18/36 = 1/2.** 
+
+Logo,
+
+**Pr(A|B) = Pr(A ∩ B)/Pr(B) = 2/3**
 
 ## Lei da Probabilidade Total
+
+Suponha que os eventos **B1, ..., Bk** formam uma partição do espaço amostral **S** e **Pr(Bj) > 0** para **j = 1, ..., k**. Então, para todo evento **A** em **S**,
+
+(Imagem de Pr(A) = somatório de j=1 até k de Pr(Bj)Pr(A|Bj))
+
+Chegamos nesse resultado a partir do seguinte raciocício:
+
+Os eventos B1 ∩ A, B2 ∩ A, ..., Bk ∩ A formarão uma partição de A, da maneira a qual está ilustrada na figura abaixo. Logo, escrevemos:
+
+A = (B1 ∩ A) ∪ (B2 ∩ A) ∪ ... ∪ (Bk ∩ A).
+
+Além disso, dado que os **k eventos** são disjuntos,
+
+Pr(A) = somatório de j = 1 até k (Pr(Bj ∩ A)).
+
+Finalmente, se **Pr(Bj) > 0** para **j = 1, ..., k**, então **Pr(Bj ∩ A) = Pr(Bj)Pr(A|Bj)**. Substituindo na equação acima, chegaremos no resultado descrito anteriormente.
