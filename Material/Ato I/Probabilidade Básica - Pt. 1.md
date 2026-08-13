@@ -43,8 +43,9 @@ Poderíamos pensar, também, em uma moeda:
 
 ```cpp
 #include <vector>
+#include <string>
 
-std::vector<string> faces = {"cara", "coroa"};
+std::vector<std::string> faces = {"cara", "coroa"};
 ```
 
 Essa é uma maneira de definir o nosso conjunto, mas poderíamos utilizar outras estruturas de dados livremente, contanto que não exista nenhum "atrito" na hora de realizarmos consultas. Dependendo, um **Hash Map** pode ser viável.
@@ -53,8 +54,9 @@ Para o caso do dado:
 
 ```cpp
 #include <unordered_map>
+#include <string>
 
-std::unordered_map<string, int> faces;
+std::unordered_map<std::string, int> faces;
 
 faces["face_1"] = 1;
 faces["face_2"] = 2;
@@ -68,8 +70,9 @@ Para o caso da moeda:
 
 ```cpp
 #include <unordered_map>
+#include <string>
 
-std::unordered_map<int, string> faces;
+std::unordered_map<int, std::string> faces;
 
 faces[1] = "cara";
 faces[2] = "coroa";
@@ -79,7 +82,9 @@ Depende das suas escolhas para a programação e do que você acha mais confort�
 
 Às vezes, também, podemos estar construindo um projeto que depende de otimização e bom desempenho para trabalhar com milhares e milhares de valores. Aqui, a escolha da estrutura correta pode ser um grande diferencial.
 
-A partir daqui, usaremos a `<vector>` para fins de simplicidade.
+Vale ressaltar que, em **C++**, para conjuntos pequenos, contínuos e bem definidos (como faces de um D6), um `std::vector` (ou `std::array`) será **infinitamente** mais rápido do que um `std::unordered_map`. O Hash Map exige o cálculo de hashes e alocação dinâmica de nós, gerando um overhead que prejudica a localidade de cache.
+
+Emtão, a partir daqui, usaremos a `<vector>` para fins de simplicidade e otimização.
 
 ## Probabilidade
 
@@ -131,7 +136,7 @@ Tamanho do conjunto: 6
 Probabilidade de sair um número qualquer em um D6: 0.166667
 ```
 
-> Perceba que ocorreu ali uma aproximação no valor de ponto flutuante. O resultado poderia ser diferente caso usássemos double ou invés de float? Verifique, se sentir curiosidade.
+> Perceba que ocorreu ali uma aproximação no valor de ponto flutuante. O resultado poderia ser diferente caso usássemos double ou invés de float? Verifique.
 
 Bacana! Mas, e se quisermos saber a probabilidade de obtermos resultados específicos em dois lançamentos sequenciais do dado?
 
@@ -147,7 +152,7 @@ De maneira um pouco simplista, intersecção **A ∩ B** diz respeito, justament
 
 **Exemplo 2: uma coisa E outra**
 
-Voltando para o exemplo do dado: se jogarmos ele duas vezes seguindas, qual a probabilidade de obtermos o **número 1** no primeiro e o **número 2** no segundo?
+Voltando para o exemplo do dado: se jogarmos ele duas vezes seguidas, qual a probabilidade de obtermos o **número 1** no primeiro e o **número 2** no segundo?
 
 Sendo A = obter 1 no primeiro, B = obter 2 no segundo: **Pr(A ∩ B) = Pr(A) Pr(B) = 1/6 x 1/6 = 1/36**.
 
@@ -165,8 +170,68 @@ Esse resultado pode ser expandido para um número árbitrário finito de eventos
 
 **Exemplo 3: uma coisa OU outra**
 
-Retornando para o exemplo do lançamento do dado, como computamos a probabilidade de obtermos um resultado OU outro?
+Retornando para o exemplo do lançamento do dado, como computamos a probabilidade de obtermos um resultado OU outro? Exemplificadamente, qual a probabilidade de lançarmos um dado e obtermos como resultado **o número 1** ou **o número 2**?
 
-## O que é Probabilidade Condicional?
+Perceba que esse evento o qual estamos descrevendo é a união de dois eventos particulares. Como foi descrito acima, obtemos a probabilidade a partir de:
+
+**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2) − Pr(A1 ∩ A2).**
+
+Onde:
+
+(i) A = Obter 1 ou 2;
+(ii) A1 = Obter 1;
+(iii) A2 = Obter 2;
+
+Ora, é intuitivo pensar que não podemos obter 1 e 2 ao mesmo tempo num lançamento de um único dado. Então, **Pr(A1 ∩ A2) = 0**.
+
+Assim, 
+
+**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2)**
+
+A probabilidade de obter uma das faces de um dado D6 em um lançamento é **1/6**. Logo:
+
+**Pr(A) = Pr(A1 ∪ A2) = Pr(A1) + Pr(A2) = 1/6 + 1/6 = 2/6 = 1/3**
+
+## Probabilidade Condicional
+
+Suponha que temos conhecimento de que um **evento B** aconteceu. Queremos computar a probabilidade de acontecer outro **evento A**, levado em conta que **B** aconteceu.
+
+A nova probabilidade será chamada de **"Probabilidade de um evento A, dado que B aconteceu"**. Ela será denotada por **Pr(A|B)**.
+
+Se Pr(B > 0), computamos essa probabilidade da seguinte maneira:
+
+**Pr(A|B) = Pr(A ∩ B) / Pr(B)**.
+
+**Pr(A|B)** não é definida se **Pr(B) = 0**. (Consegue imaginar o porquê?)
+
+**Exemplo 4: Suponha que dois dados D6 foram rolados e foi observado que a soma T dos dois números foi ímpar. Qual a probabilidade de T ser menor do que 8?** 
+
+Seja **A** o evento **"T < 8"** e seja **B** o evento **"T é ímpar"**. Assim, **A ∩ B** é o evento onde T é 3, 5 ou 7.
+
+Podemos chegar nos seguintes valores de **Pr(A ∩ B)** e **Pr(B)**:
+
+**Pr(A ∩ B) = 2/36 + 4/36 + 6/36 = 12/3 = 1/3.**
+
+**Pr(B) = 2/36 + 4/36 + 6/36 + 4/36 + 2/36 = 18/36 = 1/2.** 
+
+Logo,
+
+**Pr(A|B) = Pr(A ∩ B)/Pr(B) = 2/3**
 
 ## Lei da Probabilidade Total
+
+Suponha que os eventos **B1, ..., Bk** formam uma partição do espaço amostral **S** e **Pr(Bj) > 0** para **j = 1, ..., k**. Então, para todo evento **A** em **S**,
+
+(Imagem de Pr(A) = somatório de j=1 até k de Pr(Bj)Pr(A|Bj))
+
+Chegamos nesse resultado a partir do seguinte raciocício:
+
+Os eventos B1 ∩ A, B2 ∩ A, ..., Bk ∩ A formarão uma partição de A, da maneira a qual está ilustrada na figura abaixo. Logo, escrevemos:
+
+A = (B1 ∩ A) ∪ (B2 ∩ A) ∪ ... ∪ (Bk ∩ A).
+
+Além disso, dado que os **k eventos** são disjuntos,
+
+Pr(A) = somatório de j = 1 até k (Pr(Bj ∩ A)).
+
+Finalmente, se **Pr(Bj) > 0** para **j = 1, ..., k**, então **Pr(Bj ∩ A) = Pr(Bj)Pr(A|Bj)**. Substituindo na equação acima, chegaremos no resultado descrito anteriormente.
